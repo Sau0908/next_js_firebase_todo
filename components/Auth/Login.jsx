@@ -10,13 +10,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const { authUser, isLoading } = useAuth();
+  const { authUser } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && authUser) {
+    if (authUser) {
       router.push("/todos");
     }
-  }, [authUser, isLoading]);
+  }, [authUser]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -60,7 +60,7 @@ const Login = () => {
           </button>
 
           <p className="text-center text-sm mt-4">
-            Don't have an account ?
+            <span> Don't have an account ?</span>
             <Link href="/signup">
               <span className="font-bold"> Sign Up</span>
             </Link>

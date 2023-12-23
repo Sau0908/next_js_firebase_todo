@@ -18,13 +18,13 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const { authUser, isLoading, setAuthUser } = useAuth();
+  const { authUser, setAuthUser } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && authUser) {
+    if (authUser) {
       router.push("/todos");
     }
-  }, [authUser, isLoading]);
+  }, [authUser]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

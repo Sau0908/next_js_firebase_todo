@@ -17,19 +17,19 @@ import { useRouter } from "next/router";
 const TodoApp = () => {
   const [todoInput, setTodoInput] = useState("");
   const [todos, setTodos] = useState([]);
-  const { signOut, authUser, isLoading } = useAuth();
+  const { signOut, authUser } = useAuth();
   const [displayName, setDisplayName] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !authUser) {
+    if (!authUser) {
       router.push("/login");
     }
     if (!!authUser) {
       setDisplayName(authUser.username);
       fetchTodos(authUser.uid);
     }
-  }, [authUser, isLoading]);
+  }, [authUser]);
 
   const handleInputChange = (e) => {
     setTodoInput(e.target.value);
