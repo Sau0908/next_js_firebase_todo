@@ -1,0 +1,74 @@
+import { auth } from "@/Firebase";
+import { useAuth } from "@/context/useAuth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { authUser, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && authUser) {
+      router.push("/todos");
+    }
+  }, [authUser, isLoading]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      console.log("User signed in:", user);
+
+      router.push("/todos");
+    } catch (error) {
+      setError("Incorrect email or password. Please try again.");
+      console.error("Error signing in:", error);
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md">
+        <h2 className="text-2xl font-bold mb-6">Login to TODO App</h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-md shadow-md transition duration-300 ease-in-out"
+          >
+            Log In
+          </button>
+
+          <p className="text-center text-sm mt-4">
+            Don't have an account ?
+            <Link href="/signup">
+              <span className="font-bold"> Sign Up</span>
+            </Link>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
