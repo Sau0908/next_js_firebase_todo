@@ -48,7 +48,7 @@ const Signup = () => {
         username,
       });
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message);
       setError("Error creating user: " + error.message);
     }
   };
@@ -57,9 +57,10 @@ const Signup = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
-
+      toast.success("User SignIn Success");
       router.push("/todos");
     } catch (error) {
+      toast.error(error.message);
       setError("Error signing in with Google: " + error.message);
     }
   };
