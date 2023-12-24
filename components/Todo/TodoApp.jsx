@@ -124,14 +124,6 @@ const TodoApp = () => {
     }
   };
 
-  const handleCompleteToggle = (id) => {
-    // Find the todo item in your state or data by its ID and toggle its completion status
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-    // Update the state or data with the modified todo list
-    setTodos(updatedTodos);
-  };
   return (
     <div className="container mx-auto px-4 md:px-8 py-8 relative">
       <div className="text-center text-4xl md:text-5xl">
@@ -155,7 +147,6 @@ const TodoApp = () => {
                 editingTodo={editingTodo}
                 setEditingTodo={setEditingTodo}
                 updateTask={updateTask}
-                handleCompleteToggle={handleCompleteToggle}
               />
             ))}
           </ul>

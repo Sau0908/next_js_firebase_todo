@@ -9,7 +9,6 @@ const TodoItem = ({
   editingTodo,
   setEditingTodo,
   updateTask,
-  handleCompleteToggle,
 }) => {
   const listItemStyle =
     "bg-white p-4 my-2 rounded-md shadow-md flex justify-between items-center hover:bg-gray-300 transition duration-300 ease-in-out";
@@ -20,7 +19,7 @@ const TodoItem = ({
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={() => handleCompleteToggle(todo.id)}
+          onChange={(e) => handleDelete(e, todo.id)}
           className="rounded border-gray-300 focus:outline-none mr-2 focus:ring focus:border-blue-500"
         />
         <label className="flex items-center space-x-2 flex-grow">
