@@ -3,6 +3,7 @@ import {
   AiOutlineDelete,
   AiOutlineLogout,
   AiOutlineEdit,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import {
   collection,
@@ -124,7 +125,7 @@ const TodoApp = () => {
       });
 
       fetchTodos(authUser.uid);
-      setEditingTodo(null);
+      setEditingTodo(null); // Reset editing state after updating task
     } catch (error) {
       console.error("An error occurred", error);
     }
@@ -153,63 +154,66 @@ const TodoApp = () => {
             className={todoInputStyle}
           />
           <button onClick={addToDo} className={addButtonStyle}>
-            Add Task
+            <AiOutlinePlus size={20} />
           </button>
         </div>
         <div className="mt-4 w-full md:max-w-xl">
           <ul>
             {todos.map((todo) => (
               <li key={todo.id} className={listItemStyle}>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={(e) => handleDelete(e, todo.id)}
-                    className="rounded border-gray-300 focus:outline-none focus:ring focus:border-blue-500"
-                  />
-                  <span className={todo.completed ? "line-through" : ""}>
-                    {todo.content}
-                  </span>
-                </label>
-                <div className="flex space-x-2">
-                  {editingTodo && editingTodo.id === todo.id ? (
-                    <div className="flex space-x-2">
-                      <input
-                        type="text"
-                        value={editingTodo.content}
-                        onChange={(e) =>
-                          setEditingTodo({
-                            id: editingTodo.id,
-                            content: e.target.value,
-                          })
-                        }
-                        className="border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring focus:border-blue-500"
-                      />
-                      <button
-                        onClick={() =>
-                          updateTask(editingTodo.id, editingTodo.content)
-                        }
-                        className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600 focus:outline-none"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  ) : (
-                    <>
+                <div className="flex items-center justify-between w-full">
+                  <label className="flex items-center space-x-2 flex-grow">
+                    <input
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={(e) => handleDelete(e, todo.id)}
+                      className="rounded border-gray-300 focus:outline-none focus:ring focus:border-blue-500"
+                    />
+                    {editingTodo && editingTodo.id === todo.id ? (
+                      <div className="flex space-x-2 items-center w-full">
+                        <input
+                          type="text"
+                          value={editingTodo.content}
+                          onChange={(e) =>
+                            setEditingTodo({
+                              id: editingTodo.id,
+                              content: e.target.value,
+                            })
+                          }
+                          placeholder="Edit a task..."
+                          className="border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring focus:border-blue-500 flex-grow sm:w-64 md:w-72"
+                        />
+                        {/* Button replaced with React Icon */}
+                        <AiOutlinePlus
+                          size={20}
+                          onClick={() =>
+                            updateTask(editingTodo.id, editingTodo.content)
+                          }
+                          className="mr-2 "
+                        />
+                      </div>
+                    ) : (
+                      <span className={todo.completed ? "line-through" : ""}>
+                        {todo.content}
+                      </span>
+                    )}
+                  </label>
+                  <div className="flex space-x-2">
+                    {!editingTodo || editingTodo.id !== todo.id ? (
                       <button
                         onClick={() => handleEditTask(todo.id, todo.content)}
                         className="text-yellow-500 hover:text-yellow-700 focus:outline-none transform hover:scale-110 transition duration-300 ease-in-out"
                       >
                         <AiOutlineEdit size={20} />
                       </button>
-                      <button
-                        onClick={() => handleRemoveTask(todo.id)}
-                        className="text-red-500 hover:text-red-700 focus:outline-none transform hover:scale-110 transition duration-300 ease-in-out"
-                      >
-                        <AiOutlineDelete size={20} />
-                      </button>
-                    </>
-                  )}
+                    ) : null}
+                    <button
+                      onClick={() => handleRemoveTask(todo.id)}
+                      className="text-red-500 hover:text-red-700 focus:outline-none transform hover:scale-110 transition duration-300 ease-in-out"
+                    >
+                      <AiOutlineDelete size={20} />
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}
