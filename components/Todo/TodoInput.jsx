@@ -13,6 +13,8 @@ import {
 import { db } from "@/Firebase";
 import { useAuth } from "@/context/useAuth";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TodoApp = () => {
   const [todoInput, setTodoInput] = useState("");
@@ -97,7 +99,12 @@ const TodoApp = () => {
   };
 
   const handleLogout = () => {
-    signOut();
+    try {
+      signOut();
+      toast.success("User Logout !");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   const todoInputStyle =

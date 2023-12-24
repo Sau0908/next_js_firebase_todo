@@ -4,6 +4,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,10 +24,12 @@ const Login = () => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       console.log("User signed in:", user);
+      toast.success("User LogIn Success ");
 
       router.push("/todos");
     } catch (error) {
       setError("Incorrect email or password. Please try again.");
+      toast.error(error);
       console.error("Error signing in:", error);
     }
   };

@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -34,6 +36,7 @@ const Signup = () => {
         email,
         password
       );
+      toast.success("User SignIn Success");
 
       await updateProfile(auth.currentUser, {
         displayName: username,
@@ -45,6 +48,7 @@ const Signup = () => {
         username,
       });
     } catch (error) {
+      toast.error(error);
       setError("Error creating user: " + error.message);
     }
   };
