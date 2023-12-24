@@ -60,7 +60,6 @@ const Signup = () => {
       router.push("/todos");
     } catch (error) {
       toast.error(error.message);
-      setError("Error signing in with Google: " + error.message);
     }
   };
 

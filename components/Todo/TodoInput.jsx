@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlineDelete, AiOutlineLogout } from "react-icons/ai";
+import {
+  AiOutlineDelete,
+  AiOutlineLogout,
+  AiOutlineEdit,
+} from "react-icons/ai";
 import {
   collection,
   addDoc,
@@ -22,6 +26,7 @@ const TodoApp = () => {
   const { signOut, authUser } = useAuth();
   const [displayName, setDisplayName] = useState("");
   const router = useRouter();
+  const [editingTodo, setEditingTodo] = useState(null);
 
   useEffect(() => {
     if (!authUser) {
@@ -107,6 +112,24 @@ const TodoApp = () => {
     }
   };
 
+  const handleEditTask = (id, content) => {
+    setEditingTodo({ id, content });
+  };
+
+  const updateTask = async (id, editedContent) => {
+    try {
+      const todoRef = doc(db, "todoschema", id);
+      await updateDoc(todoRef, {
+        content: editedContent,
+      });
+
+      fetchTodos(authUser.uid);
+      setEditingTodo(null);
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
+  };
+
   const todoInputStyle =
     "border border-gray-300 rounded-l-md py-3 px-4 focus:outline-none focus:ring focus:border-blue-500 w-full md:w-72";
   const addButtonStyle =
@@ -148,12 +171,46 @@ const TodoApp = () => {
                     {todo.content}
                   </span>
                 </label>
-                <button
-                  onClick={() => handleRemoveTask(todo.id)}
-                  className="text-red-500 hover:text-red-700 focus:outline-none transform hover:scale-110 transition duration-300 ease-in-out"
-                >
-                  <AiOutlineDelete size={20} />
-                </button>
+                <div className="flex space-x-2">
+                  {editingTodo && editingTodo.id === todo.id ? (
+                    <div className="flex space-x-2">
+                      <input
+                        type="text"
+                        value={editingTodo.content}
+                        onChange={(e) =>
+                          setEditingTodo({
+                            id: editingTodo.id,
+                            content: e.target.value,
+                          })
+                        }
+                        className="border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring focus:border-blue-500"
+                      />
+                      <button
+                        onClick={() =>
+                          updateTask(editingTodo.id, editingTodo.content)
+                        }
+                        className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600 focus:outline-none"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEditTask(todo.id, todo.content)}
+                        className="text-yellow-500 hover:text-yellow-700 focus:outline-none transform hover:scale-110 transition duration-300 ease-in-out"
+                      >
+                        <AiOutlineEdit size={20} />
+                      </button>
+                      <button
+                        onClick={() => handleRemoveTask(todo.id)}
+                        className="text-red-500 hover:text-red-700 focus:outline-none transform hover:scale-110 transition duration-300 ease-in-out"
+                      >
+                        <AiOutlineDelete size={20} />
+                      </button>
+                    </>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
