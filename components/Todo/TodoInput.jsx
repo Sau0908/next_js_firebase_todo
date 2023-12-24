@@ -183,13 +183,13 @@ const TodoApp = () => {
                           placeholder="Edit a task..."
                           className="border border-gray-300 rounded-md py-1 px-2 focus:outline-none focus:ring focus:border-blue-500 flex-grow sm:w-64 md:w-72"
                         />
-                        {/* Button replaced with React Icon */}
+                        {/* Add margin between Plus and Delete icons */}
                         <AiOutlinePlus
                           size={20}
                           onClick={() =>
                             updateTask(editingTodo.id, editingTodo.content)
                           }
-                          className="mr-2 "
+                          style={{ marginRight: "4px" }}
                         />
                       </div>
                     ) : (
