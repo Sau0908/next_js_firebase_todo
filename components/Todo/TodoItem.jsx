@@ -9,21 +9,21 @@ const TodoItem = ({
   editingTodo,
   setEditingTodo,
   updateTask,
+  handleCompleteToggle,
 }) => {
   const listItemStyle =
-    "bg-white p-4 my-2 rounded-md shadow-md flex justify-between items-center transition duration-300 ease-in-out";
+    "bg-white p-4 my-2 rounded-md shadow-md flex justify-between items-center hover:bg-gray-300 transition duration-300 ease-in-out";
 
   return (
     <li key={todo.id} className={listItemStyle}>
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full ">
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => handleCompleteToggle(todo.id)}
+          className="rounded border-gray-300 focus:outline-none mr-2 focus:ring focus:border-blue-500"
+        />
         <label className="flex items-center space-x-2 flex-grow">
-          <input
-            type="checkbox"
-            checked={todo.completed}
-            onChange={(e) => handleDelete(e, todo.id)}
-            className="rounded border-gray-300 focus:outline-none focus:ring focus:border-blue-500"
-          />
-
           {editingTodo && editingTodo.id === todo.id ? (
             <div className="flex space-x-2 items-center w-full">
               <input
