@@ -1,4 +1,4 @@
-import TodoApp from "@/components/Todo/TodoInput";
+import TodoApp from "@/components/Todo/TodoApp";
 import React from "react";
 
 const todos = () => {
