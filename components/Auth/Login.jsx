@@ -28,8 +28,7 @@ const Login = () => {
 
       router.push("/todos");
     } catch (error) {
-      setError("Incorrect email or password. Please try again.");
-      toast.error(error);
+      toast.error(error.message);
       console.error("Error signing in:", error);
     }
   };
