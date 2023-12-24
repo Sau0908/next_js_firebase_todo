@@ -36,6 +36,13 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md">
+        <div className="flex justify-center">
+          <img
+            src="https://img.freepik.com/free-vector/hand-drawn-business-planning_52683-76248.jpg?w=740&t=st=1703417196~exp=1703417796~hmac=fec448f85d611e6ab2cdd0ec87e6b17c7e8433f63d274f5131ec5663d6d6fa6d"
+            alt="Profile"
+            className="w-36 h-36 border-[4px] border-b-8   rounded-full mb-4"
+          />
+        </div>
         <h2 className="text-2xl font-bold mb-6">Login to TODO App</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -61,14 +68,14 @@ const Login = () => {
           >
             Log In
           </button>
-
-          <p className="text-center text-sm mt-4">
-            <span> Don't have an account ?</span>
-            <Link href="/signup">
-              <span className="font-bold"> Sign Up</span>
-            </Link>
-          </p>
         </form>
+
+        <p className="text-center text-sm mt-4">
+          <span> Don't have an account ?</span>
+          <Link href="/signup">
+            <span className="font-bold"> Sign Up</span>
+          </Link>
+        </p>
       </div>
     </div>
   );
